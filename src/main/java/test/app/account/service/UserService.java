@@ -14,4 +14,8 @@ public interface UserService {
   void updateUserData(Long id, UpdateRequestDto createDto);
 
   List<User> findUsers(PageRequest pageRequest, UserFilter userFilter);
+
+  User getByEmail(String email);
+
+  User getUserById(Long id);
 }
