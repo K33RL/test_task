@@ -1,4 +1,4 @@
-create table "user"
+create table users
 (
     id            bigint primary key unique,
     name          varchar(500),
@@ -6,28 +6,28 @@ create table "user"
     password      varchar
 );
 
-create table account
+create table accounts
 (
     id      bigint primary key unique,
-    user_id bigint unique references "user" (id),
+    user_id bigint unique references users (id),
     balance decimal not null
 );
 
 create table email_data
 (
     id      bigint primary key unique,
-    user_id bigint unique references "user" (id),
+    user_id bigint unique references users (id),
     email   varchar(100)
 );
 
 create table phone_data
 (
     id      bigint primary key unique,
-    user_id bigint unique references "user" (id),
+    user_id bigint unique references users (id),
     email   varchar(100)
 );
 
-alter table "user"
+alter table users
     add constraint password_length_min check (length(password)>=8);
-alter table "user"
+alter table users
     add constraint password_length_max check (length(password)<=500);
