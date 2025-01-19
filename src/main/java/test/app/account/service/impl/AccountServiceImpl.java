@@ -17,17 +17,24 @@ public class AccountServiceImpl implements AccountService {
   @Override
   @Transactional
   public void transfer(Long fromAccountId, Long toAccountId, BigDecimal amount) {
-    Account fromAccount = accountRepository.findById(fromAccountId)
+    Account fromAccount = accountRepository.findByUserId(fromAccountId)
         .orElseThrow();
-    Account toAccount = accountRepository.findById(toAccountId)
+    Account toAccount = accountRepository.findByUserId(toAccountId)
         .orElseThrow();
 
     BigDecimal fromAccountBalance = fromAccount.getBalance();
     BigDecimal toAccountBalance = toAccount.getBalance();
-    fromAccount.setBalance(fromAccountBalance.subtract(amount));
-    toAccount.setBalance(toAccountBalance.add(amount));
+    if (canTransfer(fromAccountBalance, amount)) {
+      fromAccount.setBalance(fromAccountBalance.subtract(amount));
+      toAccount.setBalance(toAccountBalance.add(amount));
 
-    accountRepository.save(fromAccount);
-    accountRepository.save(toAccount);
+      accountRepository.save(fromAccount);
+      accountRepository.save(toAccount);
+    }
+
+  }
+
+  public boolean canTransfer(BigDecimal balance, BigDecimal amount) {
+    return balance.longValue() >= amount.longValue();
   }
 }
