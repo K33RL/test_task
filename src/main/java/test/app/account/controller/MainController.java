@@ -18,7 +18,7 @@ import test.app.account.entity.User;
 import test.app.account.service.UserService;
 
 @RestController
-@RequestMapping(path = "/api/v1")
+@RequestMapping(path = "/user")
 @RequiredArgsConstructor
 public class MainController {
 
