@@ -32,8 +32,8 @@ public class UserServiceImpl implements UserService {
 
   @Override
   @Transactional
-  public void createUserData(Long id, CreateRequestDto createRequestDto) {
-    User user = userRepository.findById(id).orElseThrow();
+  public void createUserData(String id, CreateRequestDto createRequestDto) {
+    User user = userRepository.findById(Long.valueOf(id)).orElseThrow();
     if (createRequestDto.getEmail() != null) {
       Email.builder().userId(user.getId()).email(createRequestDto.getEmail()).build();
     }

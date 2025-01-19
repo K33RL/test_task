@@ -3,6 +3,8 @@ package test.app.account.controller;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,12 +27,14 @@ public class MainController {
   private final UserService userService;
 
   @PostMapping("/{id}")
-  public void create(@PathVariable Long id, @RequestBody CreateRequestDto dto) {
+  public ResponseEntity<HttpStatus> create(@PathVariable("id") String id,
+      @RequestBody CreateRequestDto dto) {
     userService.createUserData(id, dto);
+    return new ResponseEntity<>(HttpStatus.OK);
   }
 
   @PutMapping("/{id}")
-  public void update(@PathVariable Long id, @RequestBody UpdateRequestDto dto) {
+  public void update(@PathVariable("id") Long id, @RequestBody UpdateRequestDto dto) {
     userService.updateUserData(id, dto);
   }
 

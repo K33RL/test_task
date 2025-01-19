@@ -9,7 +9,7 @@ import test.app.account.entity.User;
 
 public interface UserService {
 
-  void createUserData(Long id, CreateRequestDto createRequestDto);
+  void createUserData(String id, CreateRequestDto createRequestDto);
 
   void updateUserData(Long id, UpdateRequestDto createDto);
 

@@ -2,7 +2,9 @@ package test.app.account.entity;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -29,15 +31,15 @@ public class User {
 
   private String password;
 
-  @OneToOne
+  @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   @JoinColumn(name = "id")
   private Account account;
 
-  @OneToMany
+  @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JoinColumn(name = "id")
   private List<Phone> phones = new ArrayList<>();
 
-  @OneToMany
+  @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JoinColumn(name = "id")
   private List<Email> emails = new ArrayList<>();
 }
