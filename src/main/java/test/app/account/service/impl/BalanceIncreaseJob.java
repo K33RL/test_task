@@ -1,5 +1,6 @@
 package test.app.account.service.impl;
 
+import jakarta.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +17,14 @@ import test.app.account.repository.AccountRepository;
 public class BalanceIncreaseJob {
 
   private final AccountRepository accountRepository;
-  private final HashMap<Long, BigDecimal> accountStartBalances;
+  private HashMap<Long, BigDecimal> accountStartBalances;
+
+  @PostConstruct
+  public void init() {
+    accountStartBalances = new HashMap<>();
+    accountRepository.findAll()
+        .forEach(account -> accountStartBalances.put(account.getId(), account.getBalance()));
+  }
 
   @Scheduled(cron = "*/30 * * * * *")
   public void everySecond() {
@@ -25,6 +33,7 @@ public class BalanceIncreaseJob {
       all.forEach(this::increaseBalance);
     }
   }
+
 
   private void increaseBalance(Account account) {
     if (canIncrease(account)) {

@@ -3,6 +3,7 @@ package test.app.account.service.impl;
 import java.util.HashMap;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -50,6 +51,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
+  @Cacheable(value = "usersCache")
   public List<User> findUsers(PageRequest pageRequest, UserFilter userFilter) {
     return userFilterRepository.findAllByFilterPageable(userFilter, pageRequest);
   }
